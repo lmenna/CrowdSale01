@@ -13,6 +13,17 @@ class App extends Component {
     web3: null,
     accounts: null,
     contract: null,
+    tokenSymbol: "",
+    tokenName: "",
+    communityPercentage: 0,
+    foundersPercentage: 0,
+    partnersPercentage: 0,
+    developersPercentage: 0,
+    // Addresses for the distribution
+    foundersFundAddr: null,
+    foundersTimelockAddr: null,
+    partnersFundAddr: null,
+    developersFundAddr: null,
     // Get these when migrating the contract
     TokenAddress: "0xf9bc9efc6a856c45fe3738ebf49fbe0d86a63a59",
     CrowdsaleAddress: "0x3b26516b190a6f7ecf153b2ccb0b86b51f54e463"
@@ -54,13 +65,39 @@ class App extends Component {
       console.log("Get crowdSaleInstance");
       const crowdSaleInstance = await Crowdsale.at(this.state.CrowdsaleAddress);
       console.log("crowdSaleInstance:", crowdSaleInstance);
-      //const foundersFundAddr = crowdSaleInstance.foundersFundAddr;
-      const foundersFundAddr = crowdSaleInstance.address;
+      // Get percentages for crowdsale distribution
+      const communityPercentage = await crowdSaleInstance.communityPercentage.call();
+      console.log("communityPercentage:", communityPercentage);
+      const foundersPercentage = await crowdSaleInstance.foundersPercentage.call();
+      console.log("foundersPercentage:", foundersPercentage);
+      const partnersPercentage = await crowdSaleInstance.partnersPercentage.call();
+      console.log("partnersPercentage:", partnersPercentage);
+      const developersPercentage = await crowdSaleInstance.developersPercentage.call();
+      console.log("developersPercentage:", developersPercentage);
+      // Get addresses from crowdsale distribution
+      const foundersFundAddr = await crowdSaleInstance.foundersFundAddr.call();
       console.log("foundersFundAddr:", foundersFundAddr);
+      const partnersFundAddr = await crowdSaleInstance.partnersFundAddr.call();
+      console.log("partnersFundAddr:", partnersFundAddr);
+      const developersFundAddr = await crowdSaleInstance.developersFundAddr.call();
+      console.log("developersFundAddr:", developersFundAddr);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({
+        web3,
+        accounts,
+        contract:     instance,
+        tokenName:    name,
+        tokenSymbol:  symbol,
+        communityPercentage: communityPercentage.toNumber(),
+        foundersPercentage: foundersPercentage.toNumber(),
+        partnersPercentage: partnersPercentage.toNumber(),
+        developersPercentage: developersPercentage.toNumber(),
+        // Addresses for the distribution
+        foundersFundAddr
+      },
+      this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -100,6 +137,17 @@ class App extends Component {
           Try changing the value stored on <strong>line 37</strong> of App.js.
         </p>
         <div>The stored value is: {this.state.storageValue}</div>
+        <br/>
+        <div><b>ZepToken Details</b></div>
+        <div>Symbol: {this.state.tokenSymbol}</div>
+        <div>Name: {this.state.tokenName}</div>
+        <br/>
+        <div><b>Crowdsale Details</b></div>
+        <div>Community Percentage: {this.state.communityPercentage}</div>
+        <div>Founders Percentage: {this.state.foundersPercentage}</div>
+        <div>Partners Percentage: {this.state.partnersPercentage}</div>
+        <div>Developers Percentage: {this.state.developersPercentage}</div>
+        <div>Founders Fund Address: {this.state.foundersFundAddr}</div>
       </div>
     );
   }
