@@ -1,0 +1,24 @@
+Notes about how to run the UI for the ZepToken Crowdsale
+
+I. Ethereum Smart Contracts
+/Users/yglm/Documents/Development/Ethereum/react-truffle is the root directory for the project.
+Run all smart contract related commands from the directory.
+
+1) cd /Users/yglm/Documents/Development/Ethereum/react-truffle
+2) ganache-cli --defaultBalanceEther 10000
+3) truffle migrate --reset
+
+Capture the following information.
+1) Private key for first account listed when running ganache-cli needs to be imported into Metamask
+2) Addresses of the ZepToken and ZepTokenCrowdsale need to be captured when doing the truffle migrate.
+
+Notes:
+1) The ZepTokenCrowdsale address seems to only show up in the ganache-cli log screen.
+2) Metamask should be reset by connecting to rinkeby or ropsten then back to localhost 8545.
+
+
+II. React UI
+/Users/yglm/Documents/Development/Ethereum/react-truffle/client is the root directory for the UI.
+1) cd /Users/yglm/Documents/Development/Ethereum/react-truffle/client
+2) Open src/App.js and past the addresses for ZepToken and ZepTokenCrowdsale.  These were newly migrated is the steps above.
+3) npm start dev

@@ -25,8 +25,8 @@ class App extends Component {
     partnersFundAddr: null,
     developersFundAddr: null,
     // Get these when migrating the contract
-    TokenAddress: "0xf9bc9efc6a856c45fe3738ebf49fbe0d86a63a59",
-    CrowdsaleAddress: "0x3b26516b190a6f7ecf153b2ccb0b86b51f54e463"
+    TokenAddress: "0x0b57a3e6231c2a7ba23e8579849dbc5bc617bd7c",
+    CrowdsaleAddress: "0x6114133ae8bf64c7ed60aef4f7f979fb7de58edb"
   };
 
   componentDidMount = async () => {
